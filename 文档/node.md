@@ -4,7 +4,7 @@
  * @Author: luckzhangfengbo
  * @Date: 2024-03-30 16:51:37
  * @LastEditors: zhangfengbo
- * @LastEditTime: 2024-03-30 16:52:22
+ * @LastEditTime: 2024-03-30 19:32:02
 -->
 
 get 请求与 post 请求
@@ -16,3 +16,6 @@ get 请求与 post 请求
 ```
 
 ```
+
+![Alt text](image.png)
+this.studentForm = row;//这是一个浅拷贝， 会把表单中的数据一块删除掉

@@ -4,7 +4,7 @@
  * @Author: luckzhangfengbo
  * @Date: 2024-03-30 11:14:36
  * @LastEditors: zhangfengbo
- * @LastEditTime: 2024-03-30 18:54:02
+ * @LastEditTime: 2024-03-30 19:43:10
  */
 const app = new Vue({
     el: '#app',
@@ -18,6 +18,16 @@ const app = new Vue({
         pagesize:10,//每页显示行数
         inputStr: '',//输入查询条件
         dialogVisible: false,
+        studentForm:{
+            sno:'',
+            name:'',
+            gender:'',
+            birthday:'',
+            mobile:'',
+            email:'',
+            address:'',
+            imaged:'',
+        }
     },
     mounted() {
         //自动加载数据
@@ -69,6 +79,16 @@ const app = new Vue({
         addStudent(){
             this.dialogVisible=true;
         },
+        //查看学生的明细
+        viewStudent(row) {
+            this.dialogVisible=true;
+            //赋值
+            // this.studentForm = row;//这是一个浅拷贝， 会把表单中的数据一块删除掉
+            //深拷贝01就是每个元素都赋值
+            //深拷贝02
+            this.studentForm = JSON.parse(JSON.stringify(row));
+            
+        },
         //全部按钮触发的事件
         getAllStudents(){
             //清空
@@ -89,6 +109,20 @@ const app = new Vue({
                 }
             }
             
+        },
+        //关闭弹出框的表单
+        closeDialogForm() {
+            //清空表单
+            this.studentForm.sno='';
+            this.studentForm.name='';
+            this.studentForm.gender='';
+            this.studentForm.birthday='';
+            this.studentForm.mobile='';
+            this.studentForm.email='';
+            this.studentForm.address='';
+
+            //关闭弹出框
+            this.dialogVisible = false;
         },
         //分页时修改每页的行数
         handleSizeChange(size){
