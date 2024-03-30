@@ -4,7 +4,7 @@
  * @Author: luckzhangfengbo
  * @Date: 2024-03-30 11:14:36
  * @LastEditors: zhangfengbo
- * @LastEditTime: 2024-03-30 20:38:01
+ * @LastEditTime: 2024-03-30 21:07:14
  */
 const app = new Vue({
     el: '#app',
@@ -30,6 +30,35 @@ const app = new Vue({
             email:'',
             address:'',
             imaged:'',
+        },
+        rules:{
+            sno:[
+                {required:true, message:'学号不能为空', trigger:'blur'},
+                {pattern:/^[9][5]\d{3}$/, message:'学号必须是95开头的5位数字', trigger:'blur'}
+
+            ],
+            name:[
+                {required:true, message:'姓名不能为空', trigger:'blur'},
+                {pattern:/^[\u4e00-\u9fa5]{2,5}$/ ,message:'姓名在2-5汉字', trigger:'blur'}
+            ],
+            gender:[
+                {required:true, message:'性别不能为空', trigger:'change'},
+                
+            ],
+            birthday:[
+                {type:'date',required:true, message:'生日不能为空', trigger:'change'},
+            ],
+            mobile:[
+                {required:true, message:'手机号不能为空', trigger:'blur'},
+                {pattern:/^1[3-9]\d{9}$/, message:'手机号格式不正确', trigger:'blur'}
+            ],
+            email:[
+                {required:true, message:'邮箱不能为空', trigger:'blur'},
+                {pattern:/^\w+@\w+\.\w+$/, message:'邮箱格式不正确', trigger:'blur'}
+            ],
+            address:[
+                {required:true, message:'地址不能为空', trigger:'blur'},
+            ],
         }
     },
     mounted() {
