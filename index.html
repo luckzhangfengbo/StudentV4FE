@@ -121,9 +121,9 @@
                         </el-row>
                         <!-- 弹出框的学生明细表单 -->
                         <el-dialog :title="dialogTitle" :visible.sync="dialogVisible" width="50%"
-                            @close="closeDialogForm()" :close-on-click-modal="false">
-                            <el-form :model="studentForm" :rules="rules" :inline="true" style="margin-left: 20px;"
-                                lable-width="110px" lable-position="right" size="mini">
+                            @close="closeDialogForm('studentForm')" :close-on-click-modal="false">
+                            <el-form :model="studentForm" :rules="rules" ref="studentForm" :inline="true"
+                                style="margin-left: 20px;" lable-width="110px" lable-position="right" size="mini">
                                 <el-form-item label="学号:" prop="sno">
                                     <el-input v-model="studentForm.sno" :disabled="isEdit || isView"
                                         suffix-icon="el-icon-edit"></el-input>
@@ -151,14 +151,16 @@
                                     <el-input v-model="studentForm.email" :disabled="isView"
                                         suffix-icon="el-icon-edit"></el-input>
                                 </el-form-item>
-                                <el-form-item label="家庭地址:" prop="addrss">
+                                <el-form-item label="家庭地址:" prop="address">
                                     <el-input v-model="studentForm.address" :disabled="isView"
                                         suffix-icon="el-icon-edit" style="width: 262%;"></el-input>
                                 </el-form-item>
                             </el-form>
                             <span slot="footer" class="dialog-footer">
-                                <el-button type="primary" size="mini" v-show="!isView">确 定</el-button>
-                                <el-button @click="closeDialogForm()" type="info" size=mini>取 消</el-button>
+                                <el-button type="primary" size="mini" @click="submitStudentForm('studentForm')"
+                                    v-show="!isView">确
+                                    定</el-button>
+                                <el-button type="info" size=mini @click="closeDialogForm('studentForm')">取 消</el-button>
                             </span>
                         </el-dialog>
                     </el-main>

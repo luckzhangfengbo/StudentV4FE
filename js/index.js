@@ -4,7 +4,7 @@
  * @Author: luckzhangfengbo
  * @Date: 2024-03-30 11:14:36
  * @LastEditors: zhangfengbo
- * @LastEditTime: 2024-03-30 21:30:11
+ * @LastEditTime: 2024-03-30 21:43:33
  */
 const app = new Vue({
   el: "#app",
@@ -204,8 +204,21 @@ const app = new Vue({
         }
       }
     },
+    //提交学生的表单 添加  修改
+    submitStudentForm(formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          alert("submit!");
+        } else {
+          console.log("error submit!!");
+          return false;
+        }
+      });
+    },
     //关闭弹出框的表单
-    closeDialogForm() {
+    closeDialogForm(formName) {
+      //重置表单的校验
+      this.$refs[formName].resetFields();
       //清空表单
       this.studentForm.sno = "";
       this.studentForm.name = "";
