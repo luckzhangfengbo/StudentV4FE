@@ -116,13 +116,14 @@
                             </el-col>
                         </el-row>
                         <!-- 弹出框的学生明细表单 -->
-                        <el-dialog title="学生明细" :visible.sync="dialogVisible" width="50%">
-                            <el-form :inline="true" size="mini">
+                        <el-dialog title="学生明细" :visible.sync="dialogVisible" width="50%" :close-on-click-modal="false">
+                            <el-form :inline="true" style="margin-left: 20px;" lable-width="110px"
+                                lable-position="right" size="mini">
                                 <el-form-item label="学号:">
-                                    <el-input></el-input>
+                                    <el-input suffix-icon="el-icon-edit"></el-input>
                                 </el-form-item>
                                 <el-form-item label="姓名:">
-                                    <el-input></el-input>
+                                    <el-input suffix-icon="el-icon-edit"></el-input>
                                 </el-form-item>
                                 <el-form-item label="性别">
                                     <el-select placeholder="请选择性别">
@@ -131,17 +132,17 @@
                                     </el-select>
                                 </el-form-item>
                                 <el-form-item label="出生日期:">
-                                    <el-date-picker type="date" placeholder="选择日期">
+                                    <el-date-picker type="date" placeholder="选择日期" style="width: 93%;">
                                     </el-date-picker>
                                 </el-form-item>
                                 <el-form-item label="手机号码:">
-                                    <el-input></el-input>
+                                    <el-input suffix-icon="el-icon-edit"></el-input>
                                 </el-form-item>
                                 <el-form-item label="邮箱地址:">
-                                    <el-input></el-input>
+                                    <el-input suffix-icon="el-icon-edit"></el-input>
                                 </el-form-item>
                                 <el-form-item label="家庭地址:">
-                                    <el-input></el-input>
+                                    <el-input suffix-icon="el-icon-edit" style="width: 262%;"></el-input>
                                 </el-form-item>
                             </el-form>
                             <span slot="footer" class="dialog-footer">
