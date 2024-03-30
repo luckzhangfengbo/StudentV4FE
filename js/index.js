@@ -4,7 +4,7 @@
  * @Author: luckzhangfengbo
  * @Date: 2024-03-30 11:14:36
  * @LastEditors: zhangfengbo
- * @LastEditTime: 2024-03-30 16:48:25
+ * @LastEditTime: 2024-03-30 18:12:22
  */
 const app = new Vue({
     el: '#app',
@@ -16,6 +16,7 @@ const app = new Vue({
         total:0, //数据总行数
         currentpage:1,//当前页码
         pagesize:10,//每页显示行数
+        inputStr: ''//输入查询条件
     },
     mounted() {
         //自动加载数据
@@ -63,6 +64,12 @@ const app = new Vue({
                 console.log(err);
             });
         },
+        //全部按钮触发的事件
+        getAllStudents(){
+            //清空
+            this.inputStr = '';
+            this.getStudents();
+        },
         //获取当前页的学生
         getPageStudents() {
             //清空PageStudents中的数据
@@ -85,6 +92,36 @@ const app = new Vue({
             //数据重新分页
             this.getPageStudents();
 
+        },
+        //实现学生信息的查询
+        queryStudents() {
+          //实用Ajax请求--post--传递查询条件
+            axios
+            .post(this.baseURL + "students/query/", {
+                inputstr: this.inputStr
+            }).then(response => {
+                //成功
+                if(response.data.code == 1) {
+                    //把数据给students
+                    this.students = response.data.data;
+                    //获取返回记录的总行数
+                    this.total = response.data.data.length;
+                    //获取当前页的数据
+                    this.getPageStudents();
+                    //提示
+                    this.$message({
+                        message: '数据查询成功',
+                        type: 'success'
+                    });
+                } else {
+                    //提示
+                    this.$message.error(response.data.msg);
+                }
+            }).catch(err => {
+                //失败
+                console.log(err);
+                this.$message.error("获取后端查询接口出现异常!");
+            });
         },
         //调整当前的页码
         handleCurrentChange(pageNumber){
