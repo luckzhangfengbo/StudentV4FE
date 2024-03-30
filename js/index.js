@@ -4,7 +4,7 @@
  * @Author: luckzhangfengbo
  * @Date: 2024-03-30 11:14:36
  * @LastEditors: zhangfengbo
- * @LastEditTime: 2024-03-30 18:12:22
+ * @LastEditTime: 2024-03-30 18:54:02
  */
 const app = new Vue({
     el: '#app',
@@ -16,7 +16,8 @@ const app = new Vue({
         total:0, //数据总行数
         currentpage:1,//当前页码
         pagesize:10,//每页显示行数
-        inputStr: ''//输入查询条件
+        inputStr: '',//输入查询条件
+        dialogVisible: false,
     },
     mounted() {
         //自动加载数据
@@ -63,6 +64,10 @@ const app = new Vue({
                 //失败
                 console.log(err);
             });
+        },
+        //添加学生时候打开表单
+        addStudent(){
+            this.dialogVisible=true;
         },
         //全部按钮触发的事件
         getAllStudents(){
