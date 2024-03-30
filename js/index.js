@@ -4,7 +4,7 @@
  * @Author: luckzhangfengbo
  * @Date: 2024-03-30 11:14:36
  * @LastEditors: zhangfengbo
- * @LastEditTime: 2024-03-30 16:02:48
+ * @LastEditTime: 2024-03-30 16:18:40
  */
 const app = new Vue({
     el: '#app',
@@ -34,10 +34,24 @@ const app = new Vue({
             //     console.log(error);
             // });
             //使用Axios实现Ajax请求
+            // 记录this地址
+            // let that = this; 目前我还有遇到这个问题 
             axios.get(this.baseURL + "students/")
             .then(response => {
                 //成功
-                console.log(response);
+                // console.log(response);
+                if(response.data.code == 1) {
+                    //把数据给students
+                    this.students = response.data.data;
+                    //提示
+                    this.$message({
+                        message: '数据加载成功',
+                        type: 'success'
+                    });
+                } else {
+                    //提示
+                    this.$message.error(response.data.msg);
+                }
             })
             .catch(err => {
                 //失败
