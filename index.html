@@ -4,7 +4,7 @@
  * @Author: luckzhangfengbo
  * @Date: 2024-03-30 10:47:16
  * @LastEditors: zhangfengbo
- * @LastEditTime: 2024-03-30 13:40:16
+ * @LastEditTime: 2024-03-30 13:55:51
 -->
 <!DOCTYPE html>
 <html lang="en">
@@ -84,9 +84,9 @@
                             </el-table-column>
                             <el-table-column type="index" align="center" label="序号" width="60">
                             </el-table-column>
-                            <el-table-column prop="name" align="center" label="学号" width="80">
+                            <el-table-column prop="sno" align="center" label="学号" width="80">
                             </el-table-column>
-                            <el-table-column prop="name" align="center" label="姓名" width="80">
+                            <el-table-column prop="name" align="center" label="姓名" width="200">
                             </el-table-column>
                             <el-table-column prop="gender" align="center" label="性别" width="60">
                             </el-table-column>
@@ -103,8 +103,19 @@
                                 <el-button type="primary" icon="el-icon-edit" size="mini" circle></el-button>
                                 <el-button type="danger" icon="el-icon-delete" size="mini" circle></el-button>
                             </el-table-column>
-
                         </el-table>
+                        <!-- 分页 -->
+                        <el-row style="margin-top: 20px;">
+                            <el-col :span="8" style="text-align: left;">
+                                <el-button type="primary" icon="el-icon-delete" size="mini">批量删除</el-button>
+                            </el-col>
+                            <el-col :span="16" style="text-align: right;">
+                                <el-pagination :current-page="currentpage" :page-sizes="[5, 10, 50, 100]"
+                                    :page-size="pagesize" layout="total, sizes, prev, pager, next, jumper"
+                                    :total="total">
+                                </el-pagination>
+                            </el-col>
+                        </el-row>
                     </el-main>
                     <el-footer style="height: 30px;">学生信息管理系统 版权所有 1819067326@qq.com</el-footer>
                 </el-container>
