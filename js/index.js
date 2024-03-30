@@ -4,7 +4,7 @@
  * @Author: luckzhangfengbo
  * @Date: 2024-03-30 11:14:36
  * @LastEditors: zhangfengbo
- * @LastEditTime: 2024-03-30 16:18:40
+ * @LastEditTime: 2024-03-30 16:48:25
  */
 const app = new Vue({
     el: '#app',
@@ -12,7 +12,8 @@ const app = new Vue({
         msg: 'Hello Vue!',
         baseURL:"http://127.0.0.1:8000/",
         students:[],
-        total:100, //数据总行数
+        pageStudents:[],//分页后当前页的数据
+        total:0, //数据总行数
         currentpage:1,//当前页码
         pagesize:10,//每页显示行数
     },
@@ -43,6 +44,10 @@ const app = new Vue({
                 if(response.data.code == 1) {
                     //把数据给students
                     this.students = response.data.data;
+                    //获取返回记录的总行数
+                    this.total = response.data.data.length;
+                    //获取当前页的数据
+                    this.getPageStudents();
                     //提示
                     this.$message({
                         message: '数据加载成功',
@@ -58,5 +63,35 @@ const app = new Vue({
                 console.log(err);
             });
         },
+        //获取当前页的学生
+        getPageStudents() {
+            //清空PageStudents中的数据
+            this.pageStudents = [];
+            //获得当前页的数据
+            for (let i=(this.currentpage-1) * this.pagesize; i<this.total; i++) {
+                //遍历数据添加到pageStudents中
+                this.pageStudents.push(this.students[i]);
+                //判断是否达到一页的要求
+                if (this.pageStudents.length >= this.pagesize) {
+                    break;
+                }
+            }
+            
+        },
+        //分页时修改每页的行数
+        handleSizeChange(size){
+            //修改当前每页的行数
+            this.pagesize = size;
+            //数据重新分页
+            this.getPageStudents();
+
+        },
+        //调整当前的页码
+        handleCurrentChange(pageNumber){
+            //修改当前的页码
+            this.currentpage = pageNumber;
+            //数据重新分页
+            this.getPageStudents();
+        },  
     },
 })
