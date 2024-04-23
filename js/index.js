@@ -4,7 +4,7 @@
  * @Author: luckzhangfengbo
  * @Date: 2024-03-30 11:14:36
  * @LastEditors: zhangfengbo
- * @LastEditTime: 2024-04-23 20:29:49
+ * @LastEditTime: 2024-04-23 21:00:24
  */
 const app = new Vue({
   el: "#app",
@@ -281,6 +281,41 @@ const app = new Vue({
           //error
           console.log(err);
           that.$message.error("获取后端结果出现异常");
+        });
+    },
+    //删除一条学生数据
+    deleteStudent(row) {
+      console.log(row);
+      console.log(row.sno);
+      this.$confirm("是否删除该学生信息?", "提示", {
+        confirmButtonText: "确定删除",
+        cancelButtonText: "取消",
+        type: "warning",
+      })
+        .then(() => {
+          let that = this;
+          axios
+            .post(that.baseURL + "student/delete/", { sno: row.sno })
+            .then((res) => {
+              if (res.data.code === 1) {
+                console.log("enter this");
+                that.students = res.data.data;
+                that.total = res.data.data.length;
+                that.getPageStudents();
+                that.$message({
+                  type: "success",
+                  message: "删除成功!",
+                });
+              } else {
+                that.$message.error(res.data.msg);
+              }
+            });
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消删除",
+          });
         });
     },
     //关闭弹出框的表单
