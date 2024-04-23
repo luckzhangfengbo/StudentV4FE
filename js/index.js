@@ -4,13 +4,16 @@
  * @Author: luckzhangfengbo
  * @Date: 2024-03-30 11:14:36
  * @LastEditors: zhangfengbo
- * @LastEditTime: 2024-03-30 22:38:38
+ * @LastEditTime: 2024-04-23 20:29:49
  */
 const app = new Vue({
   el: "#app",
   data() {
     //校验学号是否存在
     const rulesSNo = (rule, value, callback) => {
+      if (this.isEdit) {
+        callback();
+      }
       //使用Axios进行校验
       axios
         .post(this.baseURL + "sno/check/", {
@@ -22,6 +25,8 @@ const app = new Vue({
             //提示
             if (response.data.exists) {
               callback(new Error("学号已经存在"));
+            } else {
+              callback();
             }
           } else {
             //提示
@@ -215,7 +220,7 @@ const app = new Vue({
             //添加
             this.submitAddStudent();
           }
-          alert("submit!");
+          //alert("submit!");
         } else {
           console.log("error submit!!");
           return false;
@@ -251,7 +256,33 @@ const app = new Vue({
         });
     },
     //修改到数据库的函数
-    submitUpdateStudent() {},
+    submitUpdateStudent() {
+      //使用Axios实现Ajax请求
+      let that = this;
+      axios
+        .post(that.baseURL + "student/update/", that.studentForm)
+        .then((response) => {
+          //success
+          if (response.data.code == 1) {
+            that.students = response.data.data;
+            that.total = response.data.data.length;
+            that.getPageStudents();
+            that.$message({
+              message: "数据修改成功",
+              type: "success",
+            });
+            //关闭弹出框
+            that.closeDialogForm("studentForm");
+          } else {
+            that.$message.error(response.data.msg);
+          }
+        })
+        .catch((err) => {
+          //error
+          console.log(err);
+          that.$message.error("获取后端结果出现异常");
+        });
+    },
     //关闭弹出框的表单
     closeDialogForm(formName) {
       //重置表单的校验
