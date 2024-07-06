@@ -4,7 +4,7 @@
  * @Author: luckzhangfengbo
  * @Date: 2024-03-30 11:14:36
  * @LastEditors: zhangfengbo
- * @LastEditTime: 2024-04-23 21:00:24
+ * @LastEditTime: 2024-04-27 10:07:53
  */
 const app = new Vue({
   el: "#app",
@@ -44,6 +44,9 @@ const app = new Vue({
       baseURL: "http://127.0.0.1:8000/",
       students: [],
       pageStudents: [], //分页后当前页的数据
+
+      selectStudents: [], //选择复选框的集合
+
       total: 0, //数据总行数
       currentpage: 1, //当前页码
       pagesize: 10, //每页显示行数
@@ -343,6 +346,44 @@ const app = new Vue({
       //数据重新分页
       this.getPageStudents();
     },
+    deleteStudents() {
+      this.$confirm(
+        "是否批量删除" + this.selectStudents.length + "学生信息?",
+        "提示",
+        {
+          confirmButtonText: "确定删除",
+          cancelButtonText: "取消",
+          type: "warning",
+        }
+      )
+        .then(() => {
+          let that = this;
+          axios
+            .post(that.baseURL + "students/delete/", {
+              student: that.selectStudents,
+            })
+            .then((res) => {
+              if (res.data.code === 1) {
+                console.log("enter this");
+                that.students = res.data.data;
+                that.total = res.data.data.length;
+                that.getPageStudents();
+                that.$message({
+                  type: "success",
+                  message: "数据批量删除成功!",
+                });
+              } else {
+                that.$message.error(res.data.msg);
+              }
+            });
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消删除",
+          });
+        });
+    },
     //实现学生信息的查询
     queryStudents() {
       //实用Ajax请求--post--传递查询条件
@@ -381,6 +422,11 @@ const app = new Vue({
       this.currentpage = pageNumber;
       //数据重新分页
       this.getPageStudents();
+    },
+    //选择复选框触发的操作
+    handleSelectionChange(data) {
+      this.selectStudents = data;
+      console.log(data);
     },
   },
 });
